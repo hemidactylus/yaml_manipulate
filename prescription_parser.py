@@ -3,9 +3,7 @@
 '''
 CAVEATS
     typing ('true' for instance)
-    list and indices
-        spurious list/map stuff
-    empty auto-indices
+    destruction of items
 '''
 
 from dict_utils import dict_merge
@@ -99,30 +97,29 @@ def paths_values_to_tree(paths_values):
     return tree
 
 
-def raw_to_indexed_tree(r_tree):
+def raw_to_indexed_tree(r_tree, c_path=[]):
     if isinstance(r_tree, dict):
         # check indexing and apply fixes
         if all(type(k) is str for k in r_tree.keys()):
             # includes empty dict case
             return {
-                k: raw_to_indexed_tree(v)
+                k: raw_to_indexed_tree(v, c_path + [k])
                 for k, v in r_tree.items()
             }
         elif all(type(k) is int for k in r_tree.keys()):
             # we sort items and make a list out of them, then process items
             return [
-                raw_to_indexed_tree(v)
-                for k, v in sorted(
+                raw_to_indexed_tree(v, c_path + ['[%i]' % l_index])
+                for l_index, (k, v) in enumerate(sorted(
                     r_tree.items()
-                )
+                ))
             ]
         else:
-            current_path = 'CURRENT_PATH'
-            raise ValueError('Mixed-types tree error at %s' % current_path)
+            raise ValueError('Mixed-type-tree error at %s' % ('.'.join(c_path)))
     elif isinstance(r_tree, list):
         return [
-            raw_to_indexed_tree(l_item)
-            for l_item in r_tree
+            raw_to_indexed_tree(l_item, c_path + ['[%i]' % l_index])
+            for l_index, l_item in enumerate(r_tree)
         ]
     else:
         return r_tree
