@@ -56,47 +56,47 @@ def paths_values_to_tree(paths_values):
             #
             if this_path_item['type'] == 'index':
                 if this_path_item['value'] is None:
-                    this_key = g_counter.next()
+                    this_key = g_counter
+                    n_counter = g_counter + 1
                 else:
                     this_key = this_path_item['value']
+                    n_counter = g_counter
             elif this_path_item['type'] == 'key':
                 this_key = this_path_item['value']
+                n_counter = g_counter
             #
-            return {
-                this_key: _prescription_to_dict(
-                    next_path,
-                    value,
-                    g_counter,
-                ),
-            }
+            this_val, n2_counter = _prescription_to_dict(
+                next_path,
+                value,
+                n_counter,
+            )
+            return {this_key: this_val}, n2_counter
         else:
-            return value
+            return value, g_counter
 
     def _chain_pathvalues(pvs, tree, g_counter):
         if pvs:
             this_path_val, this_val = pvs[0]
             next_pvs = pvs[1:]
+            base_dict, n_counter = _prescription_to_dict(
+                this_path_val,
+                this_val,
+                g_counter,
+            )
             return _chain_pathvalues(
                 next_pvs,
                 dict_merge(
-                    _prescription_to_dict(this_path_val, this_val, g_counter),
+                    base_dict,
                     tree,
                 ),
-                g_counter,
+                n_counter,
             )
         else:
-            return tree
+            return tree, g_counter
 
-    class _GCounter:
-        val = 0
-        def next(self):
-            rval = self.val
-            self.val += 1
-            return rval
 
-    g_counter = _GCounter()
-
-    return _chain_pathvalues(paths_values, {}, g_counter)
+    tree, _ = _chain_pathvalues(paths_values, {}, 100)
+    return tree
 
 
 def raw_to_indexed_tree(r_tree):
