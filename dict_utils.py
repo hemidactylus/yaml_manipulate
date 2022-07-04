@@ -16,3 +16,34 @@ def dict_merge(main, default, c_path=[]):
         }
     else:
         return main
+
+
+def dict_prune_nulls(tree):
+    """
+    Prune None values out of dictionaries.
+    Empty maps as well go away.
+    """
+    if isinstance(tree, dict):
+        pruned = {
+            k: v
+            for k, v in {
+                k2: dict_prune_nulls(v2)
+                for k2, v2 in tree.items()
+            }.items()
+            if v is not None
+        }
+        if pruned:
+            return pruned
+        else:
+            return None
+    elif isinstance(tree, list):
+        return [
+            v
+            for v in (
+                dict_prune_nulls(v2)
+                for v2 in tree
+            )
+            if v is not None
+        ]
+    else:
+        return tree

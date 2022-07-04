@@ -1,0 +1,35 @@
+deleted1: this_goes_away
+deleted2:
+  subdeleted: this_also_goes_away
+keyA: 999
+keyP:
+  keyQ:
+    keyR: true
+listA:
+- zzz
+- www
+objlistA:
+- x: zcs
+  y: zpsilon
+objlistB:
+- Zbah
+- Zbeh
+- Zbih
+objsublistA:
+- - Ztem1
+  - Ztem2
+objsublistB:
+- attr:
+  - Ztem1
+  - Ztem2
+sublistA:
+  subkey:
+  - 9999
+  - 9999.9
+untouched: ZYeah
+unharmed:
+  subuntouched: 9
+unscathedlist:
+- zbim
+- zbam
+- zboom

@@ -167,24 +167,3 @@ def prescriptions_to_tree(pr_lines):
     raw_tree = paths_values_to_tree(paths_values)
     indexed_tree = raw_to_indexed_tree(raw_tree)
     return indexed_tree
-
-
-if __name__ == '__main__':
-    import sys
-    import json
-    #
-    in_file = sys.argv[1]
-    out_json = sys.argv[2]
-    pr_lines = [
-        l
-        for l in open(in_file).readlines()
-        if l
-        if l[0] != '#'
-    ]
-    #
-    result = prescriptions_to_tree(pr_lines)
-    #
-    print('=== %s :' % in_file)
-    print(json.dumps(result, indent=2, sort_keys=True))
-    assert(result == json.load(open(out_json)))
-    print('=== MATCH')
