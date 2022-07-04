@@ -1,12 +1,48 @@
 # Prescriptions -> data structure
-
-'''
-CAVEATS
-    typing ('true' for instance)
-    destruction of items
-'''
-
 from dict_utils import dict_merge
+
+
+def is_integer(v):
+    try:
+        int(v)
+        return True
+    except Exception:
+        return False
+
+
+def is_decimal(v):
+    try:
+        float(v)
+        return True
+    except Exception:
+        return False
+
+
+def guess_type(r_value):
+    """
+    We *have* to accept string-only prescription and somehow typify them,
+    in order to allow for booleans, numeric, strings. Alas.
+    This is a delicate piece, as it may make it hard/impossible
+    to insert strings such as "true" or "0.123". For now we go the direct way.
+    (reminds of https://www.bram.us/2022/01/11/yaml-the-norway-problem/)
+
+    Input to this function is a string.
+    """
+    if r_value == '':
+        return None
+    # Booleans, here we are manually stricter than the yaml specs
+    if r_value.lower() == 'false':
+        return False
+    elif r_value.lower() == 'true':
+        return True
+    # numbers, then fallback to strings
+    elif is_integer(r_value):
+        return int(r_value)
+    elif is_decimal(r_value):
+        return float(r_value)
+    #
+    return r_value
+
 
 def parse_prescriptions(pr_lines):
 
@@ -30,12 +66,13 @@ def parse_prescriptions(pr_lines):
     def _parse_line(l):
         pieces = l.strip().split('=')
         assert(len(pieces) == 2)
-        kp, v = pieces
+        kp, raw_v = pieces
         pth = [
             _parse_path_item(k)
             for k in kp.split('.')
         ]
-        return (pth, v)
+        typed_v = guess_type(raw_v)
+        return (pth, typed_v)
 
     paths_values = [
         _parse_line(pr_line)
@@ -146,8 +183,8 @@ if __name__ == '__main__':
     ]
     #
     result = prescriptions_to_tree(pr_lines)
-    assert(result == json.load(open(out_json)))
     #
     print('=== %s :' % in_file)
     print(json.dumps(result, indent=2, sort_keys=True))
+    assert(result == json.load(open(out_json)))
     print('=== MATCH')

@@ -1,5 +1,5 @@
 keyA=123
-keyP.keyQ.keyR=xyz
+keyP.keyQ.keyR=False
 listA.[0]=mmm
 listA.[1]=nnn
 objlistA.[0].x=ics
@@ -11,5 +11,7 @@ objsublistA.[0].[]=item1
 objsublistA.[0].[]=item2
 objsublistB.[0].attr.[]=item1
 objsublistB.[0].attr.[]=item2
-sublistA.subkey.[]=aaz
-sublistA.subkey.[]=bby
+sublistA.subkey.[]=1119
+sublistA.subkey.[]=1121.1211
+deleted1=
+deleted2.subdeleted=
