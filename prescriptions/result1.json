@@ -1,0 +1,43 @@
+{
+  "keyA": "123",
+  "keyP": {
+    "keyQ": {
+      "keyR": "xyz"
+    }
+  },
+  "listA": [
+    "mmm",
+    "nnn"
+  ],
+  "objlistA": [
+    {
+      "x": "ics",
+      "y": "ipsilon"
+    }
+  ],
+  "objlistB": [
+    "bah",
+    "beh",
+    "bih"
+  ],
+  "objsublistA": [
+    [
+      "item1",
+      "item2"
+    ]
+  ],
+  "objsublistB": [
+    {
+      "attr": [
+        "item1",
+        "item2"
+      ]
+    }
+  ],
+  "sublistA": {
+    "subkey": [
+      "aaz",
+      "bby"
+    ]
+  }
+}

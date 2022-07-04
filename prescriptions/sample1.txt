@@ -1,0 +1,15 @@
+keyA=123
+keyP.keyQ.keyR=xyz
+listA.[0]=mmm
+listA.[1]=nnn
+objlistA.[0].x=ics
+objlistA.[0].y=ipsilon
+objlistB.[]=bah
+objlistB.[]=beh
+objlistB.[]=bih
+objsublistA.[0].[]=item1
+objsublistA.[0].[]=item2
+objsublistB.[0].attr.[]=item1
+objsublistB.[0].attr.[]=item2
+sublistA.subkey.[]=aaz
+sublistA.subkey.[]=bby
