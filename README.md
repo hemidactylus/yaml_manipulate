@@ -41,11 +41,11 @@ Check if PyYAML should be packaged here.
 ## Prescriptions
 
 - Value types are guessed.
-- Using `[]` means "next item in this list.
+- Using `[]` means "next item in this list".
 - Dot notation is used, e.g. `key.subkey.[2].subsubkey=value`.
 - Nothing after the `=` means key deletion.
 
-Example:
+Example: given the following list of prescriptions (amenable to be command-line parameters),
 ```
 keyA=123
 keyP.keyQ.keyR=False
@@ -65,3 +65,37 @@ sublistA.subkey.[]=1121.1211
 deleted1=
 deleted2.subdeleted=
 ```
+
+the following tree is produced (note the value types):
+```
+deleted1: null
+deleted2:
+  subdeleted: null
+keyA: 123
+keyP:
+  keyQ:
+    keyR: false
+listA:
+- mmm
+- nnn
+objlistA:
+- x: ics
+  y: ipsilon
+objlistB:
+- bah
+- beh
+- bih
+objsublistA:
+- - item1
+  - item2
+objsublistB:
+- attr:
+  - item1
+  - item2
+sublistA:
+  subkey:
+  - 1119
+  - 1121.1211
+```
+
+which is then merged onto a "default tree". Finally, null values are pruned away to generate the final result.
